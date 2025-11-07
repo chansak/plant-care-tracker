@@ -1,4 +1,8 @@
 <mat-card class="plant-card" [class.needs-water]="needsWater" role="article" [attr.aria-label]="plant().name + ' plant card'">
+  @if (plant().imageUrl) {
+    <img mat-card-image [src]="plant().imageUrl" [alt]="plant().name" class="plant-image">
+  }
+  
   <mat-card-header>
     <mat-card-title>
       <div class="card-title-container">

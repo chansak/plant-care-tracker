@@ -69,6 +69,20 @@
   </mat-form-field>
   
   <mat-form-field appearance="outline">
+    <mat-label>Image URL (Optional)</mat-label>
+    <input 
+      matInput 
+      formControlName="imageUrl" 
+      placeholder="https://example.com/plant-image.jpg"
+      type="url"
+      aria-label="Plant image URL">
+    <mat-icon matPrefix aria-hidden="true">image</mat-icon>
+    @if (imageUrlControl?.invalid && imageUrlControl?.touched) {
+      <mat-error>Please enter a valid URL</mat-error>
+    }
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
     <mat-label>Notes (Optional)</mat-label>
     <textarea 
       matInput 

@@ -154,6 +154,7 @@ export class PlantService {
         species: 'Monstera deliciosa',
         lastWatered: sevenDaysAgo,
         wateringFrequency: 7,
+        imageUrl: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400',
         notes: 'Loves indirect sunlight'
       },
       {
@@ -162,6 +163,7 @@ export class PlantService {
         species: 'Sansevieria trifasciata',
         lastWatered: fiveDaysAgo,
         wateringFrequency: 14,
+        imageUrl: 'https://images.unsplash.com/photo-1593482892290-f54927ae1bb8?w=400',
         notes: 'Very low maintenance'
       },
       {
@@ -170,6 +172,7 @@ export class PlantService {
         species: 'Spathiphyllum',
         lastWatered: twoDaysAgo,
         wateringFrequency: 7,
+        imageUrl: 'https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400',
         notes: 'Keep soil moist'
       }
     ];

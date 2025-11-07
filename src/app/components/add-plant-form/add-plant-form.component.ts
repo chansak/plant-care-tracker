@@ -64,6 +64,7 @@ export class AddPlantFormComponent {
       species: ['', Validators.required],
       lastWatered: [new Date(), Validators.required],
       wateringFrequency: [7, [Validators.required, Validators.min(1)]],
+      imageUrl: [''],
       notes: ['']
     });
   }
@@ -76,6 +77,7 @@ export class AddPlantFormComponent {
         species: '',
         lastWatered: new Date(),
         wateringFrequency: 7,
+        imageUrl: '',
         notes: ''
       });
     }
@@ -87,5 +89,9 @@ export class AddPlantFormComponent {
   
   get speciesControl() {
     return this.plantForm.get('species');
+  }
+  
+  get imageUrlControl() {
+    return this.plantForm.get('imageUrl');
   }
 }
