@@ -1,0 +1,93 @@
+<form [formGroup]="plantForm" (ngSubmit)="onSubmit()" class="add-plant-form" role="form" aria-label="Add new plant form">
+  <h2>Add New Plant</h2>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Plant Name</mat-label>
+    <input 
+      matInput 
+      formControlName="name" 
+      placeholder="e.g., My Monstera"
+      required
+      aria-label="Plant name"
+      aria-required="true">
+    <mat-icon matPrefix aria-hidden="true">local_florist</mat-icon>
+    @if (nameControl?.invalid && nameControl?.touched) {
+      <mat-error>
+        @if (nameControl?.errors?.['required']) {
+          Plant name is required
+        }
+        @if (nameControl?.errors?.['minlength']) {
+          Name must be at least 2 characters
+        }
+      </mat-error>
+    }
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Species</mat-label>
+    <mat-select 
+      formControlName="species" 
+      required
+      aria-label="Plant species"
+      aria-required="true">
+      @for (species of popularSpecies; track species) {
+        <mat-option [value]="species">{{ species }}</mat-option>
+      }
+    </mat-select>
+    <mat-icon matPrefix aria-hidden="true">category</mat-icon>
+    @if (speciesControl?.invalid && speciesControl?.touched) {
+      <mat-error>Species is required</mat-error>
+    }
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Last Watered Date</mat-label>
+    <input 
+      matInput 
+      [matDatepicker]="picker" 
+      formControlName="lastWatered"
+      required
+      aria-label="Last watered date"
+      aria-required="true">
+    <mat-icon matPrefix aria-hidden="true">calendar_today</mat-icon>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Watering Frequency</mat-label>
+    <mat-select 
+      formControlName="wateringFrequency"
+      required
+      aria-label="Watering frequency"
+      aria-required="true">
+      @for (freq of wateringFrequencies; track freq.value) {
+        <mat-option [value]="freq.value">{{ freq.label }}</mat-option>
+      }
+    </mat-select>
+    <mat-icon matPrefix aria-hidden="true">schedule</mat-icon>
+  </mat-form-field>
+  
+  <mat-form-field appearance="outline">
+    <mat-label>Notes (Optional)</mat-label>
+    <textarea 
+      matInput 
+      formControlName="notes" 
+      placeholder="Care instructions, location, etc."
+      rows="3"
+      aria-label="Plant care notes"></textarea>
+    <mat-icon matPrefix aria-hidden="true">note</mat-icon>
+  </mat-form-field>
+  
+  <div class="form-actions">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      type="submit" 
+      [disabled]="plantForm.invalid"
+      aria-label="Add plant">
+      <mat-icon>add</mat-icon>
+      Add Plant
+    </button>
+  </div>
+</form>
