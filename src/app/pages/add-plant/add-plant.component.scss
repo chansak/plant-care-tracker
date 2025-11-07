@@ -1,0 +1,63 @@
+.add-plant-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+}
+
+.add-plant-content {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 500;
+  color: #2e7d32;
+  margin: 0 0 8px 0;
+  
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 32px 0;
+}
+
+.form-wrapper {
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .add-plant-container {
+    padding: 12px;
+  }
+  
+  .add-plant-content {
+    padding: 20px;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  .page-subtitle {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,122 @@
+<div class="home-container">
+  <!-- Plants Display Section -->
+  <section class="plants-section">
+    <mat-tab-group animationDuration="300ms" class="plants-tabs">
+      <!-- All Plants Tab -->
+      <mat-tab label="All Plants" aria-label="All plants view">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon" aria-hidden="true">grid_view</mat-icon>
+          All Plants ({{ totalPlants() }})
+        </ng-template>
+        
+        <div class="tab-content">
+          @if (plants().length === 0) {
+            <div class="empty-state" role="status">
+              <mat-icon aria-hidden="true">local_florist</mat-icon>
+              <h3>No plants yet</h3>
+              <p>Add your first plant using the menu above!</p>
+            </div>
+          } @else {
+            <div class="plant-grid">
+              @for (plant of plants(); track plant.id) {
+                <app-plant-card 
+                  [plant]="plant"
+                  (onWater)="onWaterPlant($event)"
+                  (onDelete)="onDeletePlant($event)"
+                  class="fade-in">
+                </app-plant-card>
+              }
+            </div>
+          }
+        </div>
+      </mat-tab>
+      
+      <!-- Needs Water Tab -->
+      <mat-tab label="Needs Water" aria-label="Plants needing water view">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon warning-icon" aria-hidden="true">warning</mat-icon>
+          Needs Water ({{ plantsNeedingWaterCount() }})
+        </ng-template>
+        
+        <div class="tab-content">
+          @if (plantsNeedingWater().length === 0) {
+            <div class="empty-state success-state" role="status">
+              <mat-icon aria-hidden="true">check_circle</mat-icon>
+              <h3>All caught up! 🎉</h3>
+              <p>No plants need watering today.</p>
+            </div>
+          } @else {
+            <div class="plant-grid">
+              @for (plant of plantsNeedingWater(); track plant.id) {
+                <app-plant-card 
+                  [plant]="plant"
+                  (onWater)="onWaterPlant($event)"
+                  (onDelete)="onDeletePlant($event)"
+                  class="fade-in">
+                </app-plant-card>
+              }
+            </div>
+          }
+        </div>
+      </mat-tab>
+      
+      <!-- Upcoming Tab -->
+      <mat-tab label="Upcoming" aria-label="Upcoming waterings view">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon" aria-hidden="true">event</mat-icon>
+          Upcoming ({{ upcomingWaterings().length }})
+        </ng-template>
+        
+        <div class="tab-content">
+          @if (upcomingWaterings().length === 0) {
+            <div class="empty-state" role="status">
+              <mat-icon aria-hidden="true">calendar_today</mat-icon>
+              <h3>No upcoming waterings</h3>
+              <p>No plants need watering in the next 3 days.</p>
+            </div>
+          } @else {
+            <div class="plant-grid">
+              @for (plant of upcomingWaterings(); track plant.id) {
+                <app-plant-card 
+                  [plant]="plant"
+                  (onWater)="onWaterPlant($event)"
+                  (onDelete)="onDeletePlant($event)"
+                  class="fade-in">
+                </app-plant-card>
+              }
+            </div>
+          }
+        </div>
+      </mat-tab>
+      
+      <!-- Healthy Plants Tab -->
+      <mat-tab label="Healthy" aria-label="Healthy plants view">
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon success-icon" aria-hidden="true">eco</mat-icon>
+          Healthy ({{ healthyPlants().length }})
+        </ng-template>
+        
+        <div class="tab-content">
+          @if (healthyPlants().length === 0) {
+            <div class="empty-state" role="status">
+              <mat-icon aria-hidden="true">spa</mat-icon>
+              <h3>No healthy plants</h3>
+              <p>All your plants need attention!</p>
+            </div>
+          } @else {
+            <div class="plant-grid">
+              @for (plant of healthyPlants(); track plant.id) {
+                <app-plant-card 
+                  [plant]="plant"
+                  (onWater)="onWaterPlant($event)"
+                  (onDelete)="onDeletePlant($event)"
+                  class="fade-in">
+                </app-plant-card>
+              }
+            </div>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+</div>

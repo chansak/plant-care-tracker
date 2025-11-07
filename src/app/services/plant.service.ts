@@ -163,7 +163,7 @@ export class PlantService {
         species: 'Sansevieria trifasciata',
         lastWatered: fiveDaysAgo,
         wateringFrequency: 14,
-        imageUrl: 'https://images.unsplash.com/photo-1593482892290-f54927ae1bb8?w=400',
+        imageUrl: 'https://images.unsplash.com/photo-1587334207863-9174b90f1e6e?w=400',
         notes: 'Very low maintenance'
       },
       {

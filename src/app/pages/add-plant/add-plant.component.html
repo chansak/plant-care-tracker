@@ -1,0 +1,13 @@
+<div class="add-plant-container">
+  <div class="add-plant-content">
+    <h2 class="page-title">
+      <mat-icon>add_circle</mat-icon>
+      Add New Plant to Your Collection
+    </h2>
+    <p class="page-subtitle">Fill in the details below to track your new plant's care schedule</p>
+    
+    <div class="form-wrapper">
+      <app-add-plant-form (onPlantAdded)="onPlantAdded($event)"></app-add-plant-form>
+    </div>
+  </div>
+</div>
