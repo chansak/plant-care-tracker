@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -34,6 +34,13 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 }
 
 /**
+ * Initialize MSAL before app starts
+ */
+export function initializeMsal(msalInstance: IPublicClientApplication) {
+  return () => msalInstance.initialize();
+}
+
+/**
  * MSAL Guard Configuration
  */
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
@@ -65,6 +72,12 @@ bootstrapApplication(AppComponent, {
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeMsal,
+      deps: [MSAL_INSTANCE],
+      multi: true
     },
     {
       provide: MSAL_GUARD_CONFIG,

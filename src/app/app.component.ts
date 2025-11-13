@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-import { MsalService } from '@azure/msal-angular';
 import { PlantService } from './services/plant.service';
 import { AuthService } from './services/auth.service';
 
@@ -27,10 +26,8 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Plant Care Tracker';
-  
-  private msalService = inject(MsalService);
   
   // Access signals from service for stats
   totalPlants = this.plantService.totalPlants;
@@ -44,11 +41,6 @@ export class AppComponent implements OnInit {
     private plantService: PlantService,
     private authService: AuthService
   ) {}
-  
-  async ngOnInit(): Promise<void> {
-    // Initialize MSAL
-    await this.msalService.instance.initialize();
-  }
   
   login(): void {
     this.authService.loginRedirect();

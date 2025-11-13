@@ -27,10 +27,8 @@ export class AuthService {
   currentUser = signal<AccountInfo | null>(null);
   
   constructor() {
-    // Initialize MSAL first, then set up auth
-    this.msalService.instance.initialize().then(() => {
-      this.initializeAuth();
-    });
+    // MSAL is already initialized via APP_INITIALIZER in main.ts
+    this.initializeAuth();
   }
 
   /**
