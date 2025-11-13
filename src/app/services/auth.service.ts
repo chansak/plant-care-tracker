@@ -27,7 +27,10 @@ export class AuthService {
   currentUser = signal<AccountInfo | null>(null);
   
   constructor() {
-    this.initializeAuth();
+    // Initialize MSAL first, then set up auth
+    this.msalService.instance.initialize().then(() => {
+      this.initializeAuth();
+    });
   }
 
   /**
@@ -40,6 +43,8 @@ export class AuthService {
         this.msalService.instance.setActiveAccount(response.account);
         this.updateAuthState();
       }
+    }).catch((error) => {
+      console.error('Error handling redirect:', error);
     });
 
     // Subscribe to MSAL events
