@@ -5,7 +5,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { PlantService } from './services/plant.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +19,9 @@ import { PlantService } from './services/plant.service';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMenuModule,
+    MatDividerModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -28,5 +33,24 @@ export class AppComponent {
   totalPlants = this.plantService.totalPlants;
   plantsNeedingWaterCount = this.plantService.plantsNeedingWaterCount;
   
-  constructor(private plantService: PlantService) {}
+  // Authentication state
+  isAuthenticated = this.authService.isAuthenticated;
+  currentUser = this.authService.currentUser;
+  
+  constructor(
+    private plantService: PlantService,
+    private authService: AuthService
+  ) {}
+  
+  login(): void {
+    this.authService.loginRedirect();
+  }
+  
+  logout(): void {
+    this.authService.logoutRedirect();
+  }
+  
+  getUserName(): string {
+    return this.authService.getUserDisplayName();
+  }
 }
