@@ -152,7 +152,7 @@
     font-size: 40px;
     width: 40px;
     height: 40px;
-    color: #2e7d32;
+    color: #0d9488;
   }
   
   .user-info {
@@ -181,12 +181,12 @@
 
 /* Footer */
 .app-footer {
-  background-color: #2e7d32;
+  background: linear-gradient(135deg, #0d9488 0%, #7e22ce 100%);
   color: white;
   padding: 24px;
   text-align: center;
   margin-top: auto;
-  
+
   p {
     margin: 8px 0;
     display: flex;
@@ -195,17 +195,17 @@
     gap: 8px;
     font-size: 14px;
   }
-  
+
   .footer-subtitle {
     font-size: 12px;
-    opacity: 0.8;
+    opacity: 0.9;
   }
-  
+
   mat-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: #ff4081;
+    color: #fbbf24;
   }
 }
 
