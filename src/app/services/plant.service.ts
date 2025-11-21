@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, effect } from "@angular/core";
+import { Injectable, signal, computed, effect, Injector, inject } from "@angular/core";
 import { Plant, PlantFormData } from "../models/plant.model";
 
 @Injectable({
@@ -54,6 +54,14 @@ export class PlantService {
     () => this.plantsNeedingWater().length
   );
 
+  // Favorite plants
+  readonly favoritePlants = computed(() =>
+    this.plantsSignal().filter(plant => plant.isFavorite === true)
+  );
+
+  private injector = inject(Injector);
+  private progressServiceRef: any = null;
+
   constructor() {
     // Auto-save to localStorage when plants change
     effect(() => {
@@ -69,6 +77,7 @@ export class PlantService {
     };
 
     this.plantsSignal.update((plants) => [...plants, newPlant]);
+    this.logActivity('Added new plant', newPlant.name);
   }
 
   updatePlant(id: string, updates: Partial<Plant>): void {
@@ -86,7 +95,25 @@ export class PlantService {
   }
 
   waterPlant(id: string): void {
+    const plant = this.plantsSignal().find(p => p.id === id);
     this.updatePlant(id, { lastWatered: new Date() });
+
+    if (plant) {
+      this.logActivity('Watered plant', plant.name);
+    }
+  }
+
+  toggleFavorite(id: string): void {
+    const plant = this.plantsSignal().find(p => p.id === id);
+    if (plant) {
+      const newStatus = !plant.isFavorite;
+      this.updatePlant(id, { isFavorite: newStatus });
+
+      this.logActivity(
+        newStatus ? 'Marked as favorite' : 'Removed from favorites',
+        plant.name
+      );
+    }
   }
 
   getNextWateringDate(plant: Plant): Date {
@@ -105,6 +132,22 @@ export class PlantService {
     return Math.floor(
       (today.getTime() - lastWatered.getTime()) / (1000 * 60 * 60 * 24)
     );
+  }
+
+  private async logActivity(action: string, plantName?: string): Promise<void> {
+    // Lazy load ProgressService to avoid circular dependency
+    try {
+      if (!this.progressServiceRef) {
+        const { ProgressService } = await import('./progress.service');
+        this.progressServiceRef = this.injector.get(ProgressService, null);
+      }
+
+      if (this.progressServiceRef) {
+        this.progressServiceRef.logActivity(action, plantName);
+      }
+    } catch (e) {
+      // ProgressService not available, skip logging
+    }
   }
 
   private generateId(): string {
