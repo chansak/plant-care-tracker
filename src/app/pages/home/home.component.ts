@@ -26,19 +26,19 @@ export class HomeComponent {
   upcomingWaterings = this.plantService.upcomingWaterings;
   totalPlants = this.plantService.totalPlants;
   plantsNeedingWaterCount = this.plantService.plantsNeedingWaterCount;
-  
+
   // Computed signal for filtered views
   healthyPlants = computed(() => {
     const needsWater = this.plantsNeedingWater();
     const needsWaterIds = new Set(needsWater.map(p => p.id));
     return this.plants().filter(p => !needsWaterIds.has(p.id));
   });
-  
+
   constructor(
     private plantService: PlantService,
     private snackBar: MatSnackBar
-  ) {}
-  
+  ) { }
+
   onWaterPlant(plantId: string): void {
     const plant = this.plants().find(p => p.id === plantId);
     if (plant) {
@@ -46,15 +46,16 @@ export class HomeComponent {
       this.showNotification(`${plant.name} has been watered! 💧`);
     }
   }
-  
+
   onDeletePlant(plantId: string): void {
-    const plant = this.plants().find(p => p.id === plantId);
-    if (plant) {
-      this.plantService.deletePlant(plantId);
-      this.showNotification(`${plant.name} has been removed from your collection.`);
-    }
+    this.plantService.deletePlant(plantId);
+    this.showNotification('Plant deleted successfully');
   }
-  
+
+  onToggleFavorite(plantId: string): void {
+    this.plantService.toggleFavorite(plantId);
+  }
+
   private showNotification(message: string): void {
     this.snackBar.open(message, 'Close', {
       duration: 3000,

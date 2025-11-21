@@ -28,29 +28,33 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'Plant Care Tracker';
-  
+
   // Access signals from service for stats
-  totalPlants = this.plantService.totalPlants;
   plantsNeedingWaterCount = this.plantService.plantsNeedingWaterCount;
-  
+  totalPlants = this.plantService.totalPlants;
+
   // Authentication state
   isAuthenticated = this.authService.isAuthenticated;
   currentUser = this.authService.currentUser;
-  
+
   constructor(
     private plantService: PlantService,
     private authService: AuthService
-  ) {}
-  
-  login(): void {
-    this.authService.loginRedirect();
-  }
-  
-  logout(): void {
-    this.authService.logoutRedirect();
-  }
-  
+  ) { }
+
   getUserName(): string {
     return this.authService.getUserDisplayName();
+  }
+
+  getUserEmail(): string {
+    return this.authService.getUserEmail();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

@@ -29,9 +29,9 @@ import { PlantFormData } from '../../models/plant.model';
 })
 export class AddPlantFormComponent {
   onPlantAdded = output<PlantFormData>();
-  
+
   plantForm: FormGroup;
-  
+
   wateringFrequencies = [
     { value: 1, label: 'Daily' },
     { value: 2, label: 'Every 2 days' },
@@ -43,7 +43,7 @@ export class AddPlantFormComponent {
     { value: 21, label: 'Every 3 weeks' },
     { value: 30, label: 'Monthly' }
   ];
-  
+
   popularSpecies = [
     'Monstera deliciosa',
     'Sansevieria trifasciata',
@@ -57,7 +57,10 @@ export class AddPlantFormComponent {
     'ZZ Plant (Zamioculcas zamiifolia)',
     'Other'
   ];
-  
+
+  imagePreview: string | null = null;
+  maxFileSize = 2 * 1024 * 1024; // 2MB
+
   constructor(private fb: FormBuilder) {
     this.plantForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -68,7 +71,44 @@ export class AddPlantFormComponent {
       notes: ['']
     });
   }
-  
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
+      // Validate file size
+      if (file.size > this.maxFileSize) {
+        alert('Image size should be less than 2MB');
+        return;
+      }
+
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const base64String = e.target?.result as string;
+        this.imagePreview = base64String;
+        this.plantForm.patchValue({ imageUrl: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  removeImage(): void {
+    this.imagePreview = null;
+    this.plantForm.patchValue({ imageUrl: '' });
+  }
+
+  triggerFileInput(fileInput: HTMLInputElement): void {
+    fileInput.click();
+  }
+
   onSubmit(): void {
     if (this.plantForm.valid) {
       this.onPlantAdded.emit(this.plantForm.value as PlantFormData);
@@ -80,17 +120,18 @@ export class AddPlantFormComponent {
         imageUrl: '',
         notes: ''
       });
+      this.imagePreview = null;
     }
   }
-  
+
   get nameControl() {
     return this.plantForm.get('name');
   }
-  
+
   get speciesControl() {
     return this.plantForm.get('species');
   }
-  
+
   get imageUrlControl() {
     return this.plantForm.get('imageUrl');
   }

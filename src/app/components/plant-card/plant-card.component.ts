@@ -26,27 +26,28 @@ export class PlantCardComponent {
   plant = input.required<Plant>();
   onWater = output<string>();
   onDelete = output<string>();
-  
-  constructor(private plantService: PlantService) {}
-  
+  onFavoriteToggle = output<string>();
+
+  constructor(private plantService: PlantService) { }
+
   get needsWater(): boolean {
     const daysSince = this.plantService.getDaysSinceWatered(this.plant());
     return daysSince >= this.plant().wateringFrequency;
   }
-  
+
   get nextWateringDate(): Date {
     return this.plantService.getNextWateringDate(this.plant());
   }
-  
+
   get daysSinceWatered(): number {
     return this.plantService.getDaysSinceWatered(this.plant());
   }
-  
+
   get daysUntilNextWatering(): number {
     const days = this.plant().wateringFrequency - this.daysSinceWatered;
     return Math.max(0, days);
   }
-  
+
   get wateringStatus(): string {
     if (this.needsWater) {
       return 'Needs water now!';
@@ -60,14 +61,18 @@ export class PlantCardComponent {
     }
     return `Water in ${days} days`;
   }
-  
+
   waterPlant(): void {
     this.onWater.emit(this.plant().id);
   }
-  
+
   deletePlant(): void {
     if (confirm(`Are you sure you want to delete ${this.plant().name}?`)) {
       this.onDelete.emit(this.plant().id);
     }
+  }
+
+  toggleFavorite(): void {
+    this.onFavoriteToggle.emit(this.plant().id);
   }
 }

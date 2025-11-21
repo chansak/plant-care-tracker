@@ -1,74 +1,74 @@
-<mat-card class="plant-card" [class.needs-water]="needsWater" role="article" [attr.aria-label]="plant().name + ' plant card'">
+<mat-card class="plant-card" [class.needs-water]="needsWater" role="article"
+  [attr.aria-label]="plant().name + ' plant card'">
   @if (plant().imageUrl) {
-    <img mat-card-image [src]="plant().imageUrl" [alt]="plant().name" class="plant-image">
+  <img mat-card-image [src]="plant().imageUrl" [alt]="plant().name" class="plant-image">
   }
-  
+
   <mat-card-header>
     <mat-card-title>
       <div class="card-title-container">
         <mat-icon class="plant-icon" aria-hidden="true">local_florist</mat-icon>
         <span>{{ plant().name }}</span>
+        <button mat-icon-button (click)="toggleFavorite()"
+          [matTooltip]="plant().isFavorite ? 'Remove from favorites' : 'Add to favorites'" class="favorite-button"
+          aria-label="Toggle favorite">
+          <mat-icon [class.favorited]="plant().isFavorite">
+            {{ plant().isFavorite ? 'star' : 'star_border' }}
+          </mat-icon>
+        </button>
       </div>
     </mat-card-title>
     <mat-card-subtitle>{{ plant().species }}</mat-card-subtitle>
   </mat-card-header>
-  
+
   <mat-card-content>
     <div class="plant-info">
       <div class="info-row">
         <mat-icon aria-hidden="true">schedule</mat-icon>
         <span>Every {{ plant().wateringFrequency }} days</span>
       </div>
-      
+
       <div class="info-row">
         <mat-icon aria-hidden="true">water_drop</mat-icon>
         <span>Last watered: {{ plant().lastWatered | date:'mediumDate' }}</span>
       </div>
-      
+
       <div class="info-row">
         <mat-icon aria-hidden="true">event</mat-icon>
         <span>{{ daysSinceWatered }} days ago</span>
       </div>
-      
+
       @if (plant().notes) {
-        <div class="notes">
-          <mat-icon aria-hidden="true">note</mat-icon>
-          <span>{{ plant().notes }}</span>
-        </div>
+      <div class="notes">
+        <mat-icon aria-hidden="true">note</mat-icon>
+        <span>{{ plant().notes }}</span>
+      </div>
       }
     </div>
-    
+
     <div class="status-chip">
       @if (needsWater) {
-        <mat-chip class="warning-chip" highlighted aria-label="Plant needs water">
-          <mat-icon>warning</mat-icon>
-          {{ wateringStatus }}
-        </mat-chip>
+      <mat-chip class="warning-chip" highlighted aria-label="Plant needs water">
+        <mat-icon>warning</mat-icon>
+        {{ wateringStatus }}
+      </mat-chip>
       } @else {
-        <mat-chip class="success-chip" highlighted aria-label="Plant is healthy">
-          <mat-icon>check_circle</mat-icon>
-          {{ wateringStatus }}
-        </mat-chip>
+      <mat-chip class="success-chip" highlighted aria-label="Plant is healthy">
+        <mat-icon>check_circle</mat-icon>
+        {{ wateringStatus }}
+      </mat-chip>
       }
     </div>
   </mat-card-content>
-  
+
   <mat-card-actions>
-    <button 
-      mat-raised-button 
-      color="primary" 
-      (click)="waterPlant()"
-      [matTooltip]="'Water ' + plant().name"
+    <button mat-raised-button color="primary" (click)="waterPlant()" [matTooltip]="'Water ' + plant().name"
       aria-label="Water plant">
       <mat-icon>water_drop</mat-icon>
       Water Now
     </button>
-    
-    <button 
-      mat-button 
-      color="warn" 
-      (click)="deletePlant()"
-      [matTooltip]="'Delete ' + plant().name"
+
+    <button mat-button color="warn" (click)="deletePlant()" [matTooltip]="'Delete ' + plant().name"
       aria-label="Delete plant">
       <mat-icon>delete</mat-icon>
       Delete

@@ -1,23 +1,22 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
+import { AuthService } from '../services/auth.service';
 
 /**
  * Auth Guard to protect routes
  * Redirects to login if user is not authenticated
  */
 export const authGuard: CanActivateFn = (route, state) => {
-  const msalService = inject(MsalService);
+  const authService = inject(AuthService);
   const router = inject(Router);
-  
-  const accounts = msalService.instance.getAllAccounts();
-  
-  if (accounts.length > 0) {
+
+  if (authService.isAuthenticated()) {
     // User is authenticated
     return true;
   } else {
     // User is not authenticated, redirect to login
-    msalService.loginRedirect();
+    router.navigate(['/login']);
     return false;
   }
 };

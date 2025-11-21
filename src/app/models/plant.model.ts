@@ -6,6 +6,7 @@ export interface Plant {
   wateringFrequency: number; // days between watering
   imageUrl?: string;
   notes?: string;
+  isFavorite?: boolean;
 }
 
 export interface PlantFormData {
@@ -15,4 +16,5 @@ export interface PlantFormData {
   wateringFrequency: number;
   imageUrl?: string;
   notes?: string;
+  isFavorite?: boolean;
 }

@@ -27,6 +27,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1;
+}
+
+.favorite-button {
+  margin-left: auto;
+  
+  mat-icon {
+    transition: all 0.2s ease;
+    
+    &.favorited {
+      color: #ffc107;
+    }
+  }
+  
+  &:hover mat-icon {
+    transform: scale(1.2);
+  }
 }
 
 .plant-icon {
